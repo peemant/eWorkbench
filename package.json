@@ -1,0 +1,19 @@
+{
+  "dependencies": {
+    "axios": "^1.7.7",
+    "body-parser": "^1.20.2",
+    "ejs": "^3.1.10",
+    "eworkbench": "file:",
+    "express": "^4.19.2"
+  },
+  "name": "eworkbench",
+  "type": "module",
+  "version": "0.0.1",
+  "description": "eWorkbench project management software",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Philippe Kahr",
+  "license": "ISC"
+}

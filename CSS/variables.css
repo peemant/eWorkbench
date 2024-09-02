@@ -1,0 +1,22 @@
+:root {
+
+    --font-primary : "Be Vietnam Pro", sans-serif;
+
+    --clr-primary-dark : #405D72;
+    --clr-primary-light : #758694;
+    --clr-primary-text : #FFF8F3;
+    --clr-secondary-light : #F7E7DC;
+
+    --text-small : 0.5rem;
+    --text-medium : 0.625rem;
+    --text-normal : 0.875rem;
+    --text-large : 1.75rem;
+    --text-extra : 3.5rem;
+
+    --fw-thin : 100;
+    --fw-normal : 400;
+    --fw-bold : 700;
+
+    --fs-normal : normal;
+    --fs-italic : italic;
+}

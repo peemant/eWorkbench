@@ -1,0 +1,78 @@
+body {
+    background-color: #C9D6DF;
+    font-family: "roboto";
+}
+
+.s1-left-content, .s1-right-content, .section-two, .gate-card {
+    background-color: #F0F5F9;
+    border-radius: 12px;
+    box-shadow: 1px 1px 5px #52616B;
+}
+
+.background-container {
+    background-color: #F0F5F9;
+    border-radius: 15px;
+}
+
+.container{
+    color: #1E2022 !important;
+}
+
+h5, h4{
+    font-weight:400;
+    margin: 5px;
+    /* margin-right: 0px; */
+}
+
+h6 {
+    font-weight: 300;
+}
+
+p{
+    margin: 3px 0px 3px 3px;
+    padding: 0px;
+}
+
+#Section-Description{
+    writing-mode: vertical-lr;
+    transform: scale(-1, -1);
+}
+
+#gate-kick-off-input {
+    width: 100%;
+}
+
+.status {
+    width: 100%;
+}
+
+#gate-department {
+    border: 1px solid #1E2022;
+    border-radius: 5px;
+}
+
+#p-info-inputs {
+    width: 100%;
+}
+
+#left-bar-button-container{
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    left: 10px;
+    top: 450px;
+    z-index: 10;
+    width: 50px;
+    height: 425px;
+    border-radius: 25px;
+    border: 1px solid #1E2022;
+    background-color: #C9D6DF;
+    align-content: space-evenly;
+}
+
+.pill-icon {
+    margin: 3px;
+    padding: 5px;
+}
+
+
