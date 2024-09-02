@@ -15,40 +15,11 @@
     
 
 </head>
-<body onload="initializeJS()">
+<body>
 
     <div class="content-area">
 
-
-        <div id="corner">
-            <img src="/Resources/Images/ICON_engineering.svg" alt="" id="engineering-logo">
-        </div>
-        <div id="top-info-area-left">
-            <label class="text-labels">Project Name</label>
-            <label class="project-info-label" id="project-name">----------------</label>
-            <label class="text-labels">Project Number</label>
-            <label class="project-info-label" id="project-number">---------</label>
-            <label class="text-labels">Start of Production</label>
-            <label class="project-info-label" id="sop">----------</label>
-        </div>
-        <div id="top-info-area-right">
-            <label class="text-labels">Platform</label> 
-            <label class="project-info-label" id="platform">------------</label>
-            <label class="text-labels">Model</label>
-            <label class="project-info-label" id="model">-----------</label>
-            <label class="text-labels">Model Year</label>
-            <label class="project-info-label" id="model">----</label>
-        </div>
-        <div id="nav-bar">
-            <ul id="top-nav-items">
-                <a href="/HTML/projectManager.html" class="nav-list-item" id="project-tracker-NAV">PROJECT MANAGER</a>
-                <a href="" class="nav-list-item" id="dvp-NAV">DVP</a>
-                <a href="" class="nav-list-item" id="torque-NAV">TORQUE</a>
-                <a href="" class="nav-list-item" id="dfmea-NAV">DFMEA</a>
-                <a href="" class="nav-list-item" id="users">USERS</a>
-                <a href="" class="nav-list-item" id="help-NAV">HELP</a>
-            </ul>
-        </div>
+        <%- include("viewModules/topNavBar.ejs") %>
         <div id="left-section">
             <label id="page-title-label">eWorkbench</label>
             <ul id="left-nav-items">
@@ -70,7 +41,5 @@
 
     </div>
 
-    <script src="/JS/index.js"></script>
-    <script src="/JS/project.js"></script>
 </body>
 </html>
