@@ -22,7 +22,11 @@
     </div>
     <div id="top-info-area-left">
         <label class="text-labels">Project Name</label>
-        <label class="project-info-label" id="project-name">----------------</label>
+        <%if (locals.pn) {%>
+            <label class="project-info-label" id="project-name"><%= pn %></label>
+            <%} else {%>
+                <label class="project-info-label" id="project-name">---------</label>
+                <%}%>        
         <label class="text-labels">Project Number</label>
         <label class="project-info-label" id="project-number">---------</label>
         <label class="text-labels">Start of Production</label>

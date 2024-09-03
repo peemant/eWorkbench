@@ -100,7 +100,12 @@
 
 .left-list-item{
     display: block;
-    margin : 15px 25px;
+    margin : 15px 10px 15px auto;
+    padding: 0;
+    border: none;
+    outline: none;
+    background: none;
+    cursor: pointer;
     text-decoration: none !important;
     font-family: var(--font-primary);
     font-size: var(--text-normal);
@@ -119,7 +124,7 @@
     color: var(--clr-primary-text);
 }
 
-.card-new-project, #project-search-card{
+#card-new-project, #card-search-project{
     width: 480px;
     margin : 10px;
     border-radius: 10px;
@@ -172,3 +177,17 @@
     font-weight: var(--fw-thin);
     color: var(--clr-primary-text);
 }
+
+#btn_saveAndClose, #btn_search{
+    display: inline-flex;
+    width: 460px;
+    height: 40px;
+    margin: 5px 10px 10px 10px;
+    font-family: var(--font-primary);
+    font-size: var(--text-normal);
+    border-radius: 5px;
+    border-width: 0px;
+    color: var(--clr-primary-dark);
+}
+
+

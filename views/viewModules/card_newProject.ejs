@@ -17,9 +17,9 @@
 </head>
 <body>
 
-    <div class="card-new-project">
-        <input id="project-name-input" type="text" placeholder="Project Name">
-        <input type="text" id="sop-input" onfocus="(this.type='date')" onblur="(this.type='text')" placeholder="Start of Production">
+    <form id="card-new-project" method="post" action="/saveProject">
+        <input id="project-name-input" type="text" placeholder="Project Name" name="project-name-input">
+        <input type="text" id="sop-input" onfocus="(this.type='date')" onblur="(this.type='text')" placeholder="Start of Production" name="sop-input">
         <select name="platform-selection" id="platform-select">
             <option value="default">Select Project Platform</option>
             <option value="snowmobile">Snowmobile</option>
@@ -42,7 +42,9 @@
             <option value="2027">2027</option>
             <option value="2028">2028</option>
         </select>
-    </div>
+        
+        <input type="submit" value="Save And Close" id="btn_saveAndClose">
+    </form>
 
 </body>
 </html>
