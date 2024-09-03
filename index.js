@@ -35,6 +35,10 @@ app.get("/projectManager", async (req, res) => {
     res.render("projectManager.ejs", {leftBar_menu: "leftBar_searchProject.ejs"});
 });
 
+app.get("/tools", async (req, res) => {
+    res.render("tools.ejs", {leftBar_menu: "leftBar_tools.ejs"});
+});
+
 app.get("/newProject", async (req, res) => {
     res.render("projectManager.ejs", {toLoad: "card_newProject.ejs", leftBar_menu: "leftBar_newProject.ejs"});
 });
@@ -44,59 +48,82 @@ app.get("/openProject", async (req, res) => {
 });
 
 app.post("/searchProject", async (req, res) => {
-    var sqlQuerySting = "";
+    var sqlQueryString = "";
     var sqlStringArray = [];
     var sqlRequiredColumns = [];
+    var sqlWHERE_projectName = "";
+    var sqlWHERE_sop = "";
+    var sqlWHERE_platform = "";
+    var sqlWHERE_model = "";
+    var sqlWHERE_my = "";
 
     // Get the fields that have data inputed as a search filter
     if (req.body["project-name-input"] !== "") {
         sqlStringArray.push(req.body["project-name-input"]);
         sqlRequiredColumns.push("projectname");
-        // sqlQuerySting = sqlQuerySting + req.body["project-name-input"];
+        sqlWHERE_projectName = "projectname = " + "'" + req.body["project-name-input"] + "'";
+
+        if (sqlQueryString === "") {
+            sqlQueryString = " WHERE " + sqlWHERE_projectName;
+        } else {
+            sqlQueryString = sqlQueryString + " AND " + sqlWHERE_projectName;
+        }
     }
     if (req.body["sop-input"] !== "") {
         sqlStringArray.push(req.body["sop-input"]);
         sqlRequiredColumns.push("startofproduction");
-        // sqlQuerySting = sqlQuerySting + req.body["sop-input"];
+        sqlWHERE_sop = "startofproduction >= " + "'" + req.body["sop-input"] + "'";
+
+        if (sqlQueryString === "") {
+            sqlQueryString = " WHERE " + sqlWHERE_sop;
+        } else {
+            sqlQueryString = sqlQueryString + " AND " + sqlWHERE_sop;
+        }
     }
     if (req.body["platform-selection"] !== "default" ) {
         sqlStringArray.push(req.body["platform-selection"]);
         sqlRequiredColumns.push("projectplatform");
-        // sqlQuerySting = sqlQuerySting + req.body["platform-selection"];
+        sqlWHERE_platform = "projectplatform = " + "'" + req.body["platform-selection"] + "'";
+
+        if (sqlQueryString === "") {
+            sqlQueryString = " WHERE " + sqlWHERE_platform;
+        } else {
+            sqlQueryString = sqlQueryString + " AND " + sqlWHERE_platform;
+        }
+
     }
     if (req.body["model-selection"] !== "default" ) {
         sqlStringArray.push(req.body["model-selection"]);
         sqlRequiredColumns.push("projectmodel");
-        // sqlQuerySting = sqlQuerySting + req.body["model-selection"];
+        sqlWHERE_model = "projectmodel = " + "'" + req.body["model-selection"] + "'";
+
+        if (sqlQueryString === "") {
+            sqlQueryString = " WHERE " + sqlWHERE_model;
+        } else {
+            sqlQueryString = sqlQueryString + " AND " + sqlWHERE_model;
+        }
     }
     if (req.body["my-selection"] !== "default" ) {
         sqlStringArray.push(req.body["my-selection"]);
         sqlRequiredColumns.push("projectmodelyear");
-        // sqlQuerySting = sqlQuerySting + req.body["my-selection"];
-    }
+        sqlWHERE_my = "projectmodelyear >= " + "'" + req.body["my-selection"] + "'";
 
-    if (sqlStringArray.length === 0) {
-        sqlQuerySting = "*";
-    }
-    for (let index = 0; index < sqlStringArray.length; index++) {
-
-        if (sqlStringArray.length === index + 1) {
-            console.log(`String array length ${sqlStringArray.length}is equal to the index ${index} and the array length is ${sqlStringArray.length}`);
-            sqlQuerySting = sqlQuerySting + sqlStringArray[index];
+        if (sqlQueryString === "") {
+            sqlQueryString = " WHERE " + sqlWHERE_my;
         } else {
-            console.log(`Simply Adding ${index} and the array length is ${sqlStringArray.length}`);
-            sqlQuerySting = sqlQuerySting + sqlStringArray[index] + ", ";
+            sqlQueryString = sqlQueryString + " AND " + sqlWHERE_my;
         }
-        
     }
 
     // Assemble the search query 
-    var finalSQLString = "SELECT " + sqlQuerySting + " FROM public.projects";
-    console.log(finalSQLString);
-    // await data.query()
+    var finalSQLString = "SELECT * FROM public.projects" + sqlQueryString;
+    var searchData = await data.query(finalSQLString);
+
+    console.log(searchData.rows);
+
     // Output the Data
-    sqlQuerySting = "";
-    res.render("projectManager.ejs", {toLoad: "card_searchProject.ejs", leftBar_menu: "leftBar_searchProject.ejs"});
+    sqlQueryString = "";
+    res.render("projectManager.ejs", {toLoad: "card_searchProject.ejs", leftBar_menu: "leftBar_searchProject.ejs", loadedProject: "projectList.ejs"});
 });
 
 app.get("/saveProject", async (req, res) => {
