@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project List</title>
+    <title>DVP & R</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,9 +13,29 @@
     <link rel="stylesheet" href="/CSS/variables.css">
     <link rel="stylesheet" href="/CSS/style.css">
     
+
 </head>
 <body>
 
-    
+    <div class="content-area">
+
+        <%- include("viewModules/topNavBar.ejs") %>
+        <div id="left-section">
+
+            <% if (locals.leftBar_menu) { %>
+                <%- include(`viewModules/${leftBar_menu}`); %>
+            <% } %>
+            
+
+        </div>
+        <div id="main-content-area">
+
+            <% if (locals.toLoad) { %>
+                <%- include(`viewModules/${toLoad}`); %>
+            <% } %>
+            
+        </div>
+
+    </div>
 </body>
 </html>
