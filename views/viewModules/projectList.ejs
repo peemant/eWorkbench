@@ -16,6 +16,24 @@
 </head>
 <body>
 
-    
+    <div class="search-data-row" id="table-header">
+        <div>Project Number</div>
+            <div>Project Name</div>
+            <div>Start of Production</div>
+            <div>Platform</div>
+            <div>Model</div>
+            <div>Vehicle Model Year</div>
+        
+    </div>
+    <% searchData.forEach(item => { %>
+        <div class="search-data-row">
+            <div> <a href='/project/<%= item.projectnumber %>'> <%= item.projectnumber %> </a> </div>
+            <div> <%= item.projectname %></div>
+            <div> <%= item.startofproduction %></div>
+            <div> <%= item.projectplatform %></div>
+            <div> <%= item.projectmodel %></div>
+            <div> <%= item.projectmodelyear %></div>
+        </div>
+    <% }) %>
 </body>
 </html>
