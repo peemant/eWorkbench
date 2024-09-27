@@ -17,28 +17,35 @@
 </head>
 <body>
 
+    <%#     
+        The page is divided into 4 grid squares. 
+        Top left corner (Logo)
+        Top right section (Nav Bar)
+        Bottom left menu (left Bar)
+        Bottom right section (main content area)
+    %>
+
     <div class="content-area">
 
-        <%- include("viewModules/topNavBar.ejs") %>
-        <div id="left-section">
-            <label id="page-title-label">eWorkbench</label>
-            <ul id="left-nav-items">
-                <!-- <a href="" class="left-list-item" id="left-item-1"></a> -->
-                <!-- <a href="" class="left-list-item" id="left-item-2"></a> -->
-                <!-- <a href="" class="left-list-item" id="left-item-3"></a> -->
-                <!-- <a href="" class="left-list-item" id="left-item-4"></a> -->
-                <!-- <a href="" class="left-list-item" id="left-item-5"></a> -->
-                <!-- <a href="" class="left-list-item" id="left-item-6"></a> -->
-                <!-- <a href="" class="left-list-item" id="left-item-7"></a> -->
-                <!-- <a href="" class="left-list-item" id="left-item-8"></a> -->
-                <!-- <a href="" class="left-list-item" id="left-item-9"></a> -->
-                <!-- <a href="" class="left-list-item" id="left-item-10"></a> -->
-                <!-- <a href="" class="left-list-item" id="left-item-11"></a> -->
-                <!-- <a href="" class="left-list-item" id="left-item-12"></a> -->
-            </ul>
-        </div>
-        <div id="main-content-area"></div>
+        <%- include("viewModules/topBarMenus/topNavBar.ejs") %> <%# This loads the top nav bar and includes the corner and top nav items. %>
 
+        <div id="left-section">
+            <label id="page-title-label"> <%= menuTitle %></label>
+            <% if (locals.leftBar_menu) { %>
+                <%- include(`viewModules/leftBarMenus/${leftBar_menu}`); %>
+            <% } %>
+        </div>
+        <div id="main-content-area">
+            <% if (locals.mainOne) { %>
+                <%- include(`viewModules/cards/${mainOne}`); %>
+            <% } %>
+            <% if (locals.mainTwo) { %>
+                <%- include(`viewModules/cards/${mainTwo}`); %>
+            <% } %>
+            <% if (locals.mainThree) { %>
+                <%- include(`viewModules/cards/${mainThree}`); %>
+            <% } %>
+        </div>
     </div>
 
 </body>

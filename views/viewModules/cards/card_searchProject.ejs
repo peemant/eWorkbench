@@ -1,23 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>New Project</title>
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
-
-    <link rel="stylesheet" href="/CSS/reset.css">
-    <link rel="stylesheet" href="/CSS/variables.css">
-    <link rel="stylesheet" href="/CSS/style.css">
-    
-
-</head>
 <body>
-
-    <form id="card-new-project" method="post" action="/saveProject">
+    <form id="card-search-project" method="post" action="/searchProject">
         <input id="project-name-input" type="text" placeholder="Project Name" name="project-name-input">
         <input type="text" id="sop-input" onfocus="(this.type='date')" onblur="(this.type='text')" placeholder="Start of Production" name="sop-input">
         <select name="platform-selection" id="platform-select">
@@ -41,10 +23,12 @@
             <option value="2026">2026</option>
             <option value="2027">2027</option>
             <option value="2028">2028</option>
+            <option value="2026">2029</option>
+            <option value="2027">2030</option>
+            <option value="2028">2031</option>
         </select>
         
-        <input type="submit" value="Save And Close" id="btn_saveAndClose">
+        <input type="submit" value="Search" id="btn_search">
     </form>
-
+    
 </body>
-</html>

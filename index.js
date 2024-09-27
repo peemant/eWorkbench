@@ -4,6 +4,7 @@ import pg from "pg";
 import moment from "moment";
 
 
+
 const app = express();
 const data = new pg.Client({
     user: "postgres",
@@ -30,28 +31,28 @@ var newPRIMARYKEY;
 
 
 app.get("/", async (req, res) => {
-    res.render("index.ejs");
+    res.render("index.ejs", {menuTitle: "eWorkbench"});
 });
 
 app.get("/projectManager", async (req, res) => {
-    res.render("projectManager.ejs", {leftBar_menu: "leftBar_searchProject.ejs"});
+    res.render("index.ejs", {leftBar_menu: "leftBar_searchProject.ejs", menuTitle: "Project Manager"});
 });
 
 app.get("/project/:project_number", async (req, res) => {
     var p = await data.query(`SELECT * FROM public.projects WHERE projectnumber = '${req.params.project_number}'`);
-    res.render("projectManager.ejs", {leftBar_menu: "leftBar_projectLifeCycle.ejs", project: p});
+    res.render("index.ejs", {leftBar_menu: "leftBar_projectLifeCycle.ejs", project: p, menuTitle: "Search Projects"});
 });
 
 app.get("/tools", async (req, res) => {
-    res.render("tools.ejs", {leftBar_menu: "leftBar_tools.ejs"});
+    res.render("index.ejs", {leftBar_menu: "leftBar_tools.ejs", menuTitle: "Tools Menu"});
 });
 
 app.get("/newProject", async (req, res) => {
-    res.render("projectManager.ejs", {toLoad: "card_newProject.ejs", leftBar_menu: "leftBar_newProject.ejs"});
+    res.render("index.ejs", {mainOne: "card_newProject.ejs", leftBar_menu: "leftBar_newProject.ejs", menuTitle: "Create New Project"});
 });
 
 app.get("/openProject", async (req, res) => {
-    res.render("projectManager.ejs", {toLoad: "card_searchProject.ejs", leftBar_menu: "leftBar_searchProject.ejs"});
+    res.render("index.ejs", {mainOne: "card_searchProject.ejs", leftBar_menu: "leftBar_searchProject.ejs", menuTitle: "Search Projects"});
 });
 
 app.post("/searchProject", async (req, res) => {
@@ -166,17 +167,19 @@ app.post("/searchProject", async (req, res) => {
     // and the "topNavBar.ejs". The search box is loaded from "card_searchProject.ejs".
     // The data is then sent via "searchData"
 
-    res.render("projectManager.ejs", {
-        toLoad: "card_searchProject.ejs",
+    res.render("index.ejs", {
         leftBar_menu: "leftBar_searchProject.ejs",
-        loadedProject: "projectList.ejs",
-        searchData: searchData.rows
+        mainOne: "card_searchProject.ejs",
+        mainTwo: "projectList.ejs",
+        searchData: searchData.rows,
+        menuTitle: "Search Projects"
     });
 });
 
 app.get("/saveProject", async (req, res) => {
-    res.render("projectManager.ejs", {leftBar_menu: "leftBar_searchProject.ejs"});
+    res.render("index.ejs", {leftBar_menu: "leftBar_searchProject.ejs", menuTitle: "Search Projects"});
 }); 
+
 app.post("/saveProject", async (req, res) => {
 
     // Grab the data from the form
@@ -195,8 +198,16 @@ app.post("/saveProject", async (req, res) => {
         [newPRIMARYKEY, pName, sop, platform, model, my, "12345678"]);
 
     
-    res.render("projectManager.ejs", {leftBar_menu: "leftBar_searchProject.ejs", pn: pName});
+    res.render("index.ejs", {leftBar_menu: "leftBar_searchProject.ejs", pn: pName, menuTitle: "Search Projects"});
 
+});
+
+app.get("/dvp", async (req, res) => {
+    res.render("index.ejs", {leftBar_menu: "leftBar_dvp", menuTitle: "DVP Menu"})
+});
+
+app.get("/dvp/new", async (req, res) => {
+    res.render("index.ejs", {menuTitle: "Create New DVP&R", leftBar_menu: "leftBar_dvp.ejs", mainOne: "card_newDVP"});
 });
 
 app.listen(port, () => {
