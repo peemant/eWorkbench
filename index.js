@@ -1,28 +1,23 @@
-import express from "express";
+import express, { response } from "express";
 import bodyParser from "body-parser";
 import pg from "pg";
 import moment from "moment";
-
+import { getSQLClient, getSQLPool } from "./JS/func/sql_access.js";
+import { route_DVP } from "./public/Resources/JS/router_dvp.js";
 
 
 const app = express();
-const data = new pg.Client({
-    user: "postgres",
-    host:"localhost",
-    database:"eWorkbench",
-    password:"Tr0yw1nter!",
-    port: "4567",
-});
+// const dataClient = getSQLClient();
+const dataPool = getSQLPool();
+
 
 const port = 80;
 
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use("/dvp", route_DVP);
 
-// Load Database
-data.connect(() => {
-    console.log("Connection Successful, connected to database");
-});
+
 
 // Variables
 
@@ -32,6 +27,8 @@ var newPRIMARYKEY;
 
 app.get("/", async (req, res) => {
     res.render("index.ejs", {menuTitle: "eWorkbench"});
+
+    dataPool.end();
 });
 
 app.get("/projectManager", async (req, res) => {
@@ -39,7 +36,7 @@ app.get("/projectManager", async (req, res) => {
 });
 
 app.get("/project/:project_number", async (req, res) => {
-    var p = await data.query(`SELECT * FROM public.projects WHERE projectnumber = '${req.params.project_number}'`);
+    var p = await dataClient.query(`SELECT * FROM public.projects WHERE projectnumber = '${req.params.project_number}'`);
     res.render("index.ejs", {leftBar_menu: "leftBar_projectLifeCycle.ejs", project: p, menuTitle: "Search Projects"});
 });
 
@@ -53,9 +50,12 @@ app.get("/newProject", async (req, res) => {
 
 app.get("/openProject", async (req, res) => {
     res.render("index.ejs", {mainOne: "card_searchProject.ejs", leftBar_menu: "leftBar_searchProject.ejs", menuTitle: "Search Projects"});
+    
 });
 
 app.post("/searchProject", async (req, res) => {
+
+    await dataPool.connect();
 
     // Variables
 
@@ -146,9 +146,15 @@ app.post("/searchProject", async (req, res) => {
 
     // Assemble the search query 
     var finalSQLString = "SELECT * FROM public.projects" + sqlQueryString;
-    var searchData = await data.query(finalSQLString);
 
-    console.log(searchData.rows);
+    
+    // Load Database
+ 
+    
+    var searchData = await dataPool.query(finalSQLString);
+    dataPool.release;
+
+    console.log(dataPool);
 
     // Output the data
 
@@ -174,6 +180,8 @@ app.post("/searchProject", async (req, res) => {
         searchData: searchData.rows,
         menuTitle: "Search Projects"
     });
+
+
 });
 
 app.get("/saveProject", async (req, res) => {
@@ -182,6 +190,11 @@ app.get("/saveProject", async (req, res) => {
 
 app.post("/saveProject", async (req, res) => {
 
+    // Load Database
+    await dataClient.connect(() => {
+        console.log("Connection Successful, connected to database");
+    });
+
     // Grab the data from the form
     var pName = req.body["project-name-input"];
     var sop = req.body["sop-input"];
@@ -189,25 +202,19 @@ app.post("/saveProject", async (req, res) => {
     var model = req.body["model-selection"];
     var my = req.body["my-selection"];
 
-    projectData = await data.query(`SELECT * FROM public.projects`);
+    projectData = await dataClient.query(`SELECT * FROM public.projects`);
     newPRIMARYKEY = projectData.rowCount + 1;
 
-    await data.query(`INSERT INTO projects 
+    await dataClient.query(`INSERT INTO projects 
         (id, projectname, startofproduction, projectplatform, projectmodel, projectmodelyear, projectnumber)
         VALUES ($1, $2, $3, $4, $5, $6, $7)`,
         [newPRIMARYKEY, pName, sop, platform, model, my, "12345678"]);
 
     
     res.render("index.ejs", {leftBar_menu: "leftBar_searchProject.ejs", pn: pName, menuTitle: "Search Projects"});
-
-});
-
-app.get("/dvp", async (req, res) => {
-    res.render("index.ejs", {leftBar_menu: "leftBar_dvp", menuTitle: "DVP Menu"})
-});
-
-app.get("/dvp/new", async (req, res) => {
-    res.render("index.ejs", {menuTitle: "Create New DVP&R", leftBar_menu: "leftBar_dvp.ejs", mainOne: "card_newDVP"});
+    await dataClient.end(() => { 
+        console.log("Disconnected from database");
+    });
 });
 
 app.listen(port, () => {
