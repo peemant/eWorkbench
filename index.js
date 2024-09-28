@@ -7,8 +7,7 @@ import { route_DVP } from "./public/Resources/JS/router_dvp.js";
 
 
 const app = express();
-// const dataClient = getSQLClient();
-const dataPool = getSQLPool();
+const dataClient = getSQLClient();
 
 
 const port = 80;
@@ -17,7 +16,7 @@ app.use(express.static("public"));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use("/dvp", route_DVP);
 
-
+dataClient.connect();
 
 // Variables
 
@@ -27,8 +26,6 @@ var newPRIMARYKEY;
 
 app.get("/", async (req, res) => {
     res.render("index.ejs", {menuTitle: "eWorkbench"});
-
-    dataPool.end();
 });
 
 app.get("/projectManager", async (req, res) => {
@@ -54,8 +51,6 @@ app.get("/openProject", async (req, res) => {
 });
 
 app.post("/searchProject", async (req, res) => {
-
-    await dataPool.connect();
 
     // Variables
 
@@ -151,11 +146,7 @@ app.post("/searchProject", async (req, res) => {
     // Load Database
  
     
-    var searchData = await dataPool.query(finalSQLString);
-    dataPool.release;
-
-    console.log(dataPool);
-
+    var searchData = await dataClient.query(finalSQLString);
     // Output the data
 
     // This is required to format the date recieved from SQL. I am using "moment" import package
@@ -190,11 +181,6 @@ app.get("/saveProject", async (req, res) => {
 
 app.post("/saveProject", async (req, res) => {
 
-    // Load Database
-    await dataClient.connect(() => {
-        console.log("Connection Successful, connected to database");
-    });
-
     // Grab the data from the form
     var pName = req.body["project-name-input"];
     var sop = req.body["sop-input"];
@@ -212,9 +198,7 @@ app.post("/saveProject", async (req, res) => {
 
     
     res.render("index.ejs", {leftBar_menu: "leftBar_searchProject.ejs", pn: pName, menuTitle: "Search Projects"});
-    await dataClient.end(() => { 
-        console.log("Disconnected from database");
-    });
+
 });
 
 app.listen(port, () => {

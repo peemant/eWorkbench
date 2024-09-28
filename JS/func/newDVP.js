@@ -16,9 +16,9 @@ export async function newDVP() {
 
     await data.connect();
 
-    listOfDVPNumbers = await data.query('SELECT dvpnumber FROM public.dvp');
-    
-    await data.end();
+    listOfDVPNumbers = await data.query('SELECT dvpnumber FROM public.dvp', (err, res) => {
+        data.end();
+    });
 
     // I could just check last item and add the next but I want to be able to take a number
     // that could have been deleted. So I am grabbing the full list and then checking DVP
